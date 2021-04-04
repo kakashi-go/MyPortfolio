@@ -36,7 +36,8 @@ export interface stateType {
   searchText: string
   userNum: number
   messages: Array<string>
-  chatID: string
+  contractID: string
+  provider: any
 }
 
 export interface coachType {
@@ -67,4 +68,11 @@ export interface contractType {
   coachName: string
   planName: string
   contents: string
+  coachID: string
+}
+
+export interface contractUserType {
+  contents: string
+  planName: string
+  userName: string
 }

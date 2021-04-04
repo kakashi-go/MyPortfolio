@@ -3,7 +3,9 @@
     <!-- ナビゲーションバー -->
     <b-navbar toggleable="lg" class="header-color">
       <b-navbar-brand style="margin-top: -1%"
-        ><div class="title-font">YourCoach</div></b-navbar-brand
+        ><div class="title-font">
+          <nuxt-link to="/">YourCoach</nuxt-link>
+        </div></b-navbar-brand
       >
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>

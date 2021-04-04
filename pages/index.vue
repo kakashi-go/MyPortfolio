@@ -37,7 +37,6 @@
       id="carousel-1"
       v-model="slide"
       :interval="3000"
-      fade
       controls
       indicators
     >
@@ -50,10 +49,13 @@
         img-src="~@/assets/image/softball.jpg"
       >
       </b-carousel-slide>
-      <b-carousel-slide
-        caption="チームの結成も"
-        img-src="~@/assets/image/team.jpg"
-      ></b-carousel-slide>
+      <div style="color: black">
+        <b-carousel-slide
+          caption="チャット機能搭載"
+          img-src="~@/assets/image/chat.png"
+        ></b-carousel-slide>
+      </div>
+      >
     </b-carousel>
     <div class="main-text2">
       <br />
@@ -70,7 +72,8 @@
         <div class="left text">
           <h4>コーチになれる</h4>
           <p>
-            コーチを依頼するのみでなく、あなた自身がコーチになることが可能です。
+            コーチを依頼するのみでなく、あなたもコーチになれます。<br />
+            チャット機能でコミュニケーションが可能です。
           </p>
         </div>
         <div id="photo02" class="right"></div>

@@ -133,7 +133,7 @@ export default {
   },
   methods: {
     doSearchCoach() {
-      this.$store.dispatch('searchCoach', this.searchWord)
+      this.$store.commit('searchCoach', this.searchWord)
     },
     doLogout() {
       this.$store.dispatch('logout')

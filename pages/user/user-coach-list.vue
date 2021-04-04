@@ -3,7 +3,9 @@
     <!-- ナビゲーションバー -->
     <b-navbar toggleable="lg" class="header-color">
       <b-navbar-brand style="margin-top: -1%"
-        ><span class="title-font">YourCoach</span>
+        ><span class="title-font"
+          ><nuxt-link to="/user/user-profile">>YourCoach</nuxt-link></span
+        >
         <input
           v-model.trim="searchWord"
           type="text"
@@ -67,7 +69,7 @@
         class="card"
         style="
           max-width: 50%;
-          margin: 0 auto;
+          margin: 3em auto;
           box-shadow: 0 0 0.2em 0 grey;
           border-radius: 0.4em;
         "
@@ -164,10 +166,10 @@ export default {
   },
   methods: {
     doGetCoachID(coachEmail: string, coachPass: string) {
-      this.$store.dispatch('getCoachID', { email: coachEmail, pass: coachPass })
+      this.$store.commit('getCoachID', { email: coachEmail, pass: coachPass })
     },
     doSearchCoach() {
-      this.$store.dispatch('searchCoach', this.searchWord)
+      this.$store.commit('searchCoach', this.searchWord)
     },
     doLogout() {
       this.$store.dispatch('logout')

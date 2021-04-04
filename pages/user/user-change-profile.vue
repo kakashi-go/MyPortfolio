@@ -3,7 +3,9 @@
     <!-- ナビゲーションバー -->
     <b-navbar toggleable="lg" class="header-color">
       <b-navbar-brand style="margin-top: -1%"
-        ><span class="title-font">YourCoach</span>
+        ><span class="title-font"
+          ><nuxt-link to="/user/user-profile">>YourCoach</nuxt-link></span
+        >
         <input
           v-model.trim="searchWord"
           type="text"
@@ -12,7 +14,6 @@
         />
         <button class="btn btn-primary" @click="doSearchCoach">検索</button>
       </b-navbar-brand>
-
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav style="text-align: right; margin-left: 25%">
@@ -216,7 +217,7 @@ export default {
   methods: {
     doChangeName() {
       if (this.newName !== '') {
-        this.$store.dispatch('changeName', {
+        this.$store.commit('changeName', {
           name: this.newName,
           email: this.$store.state.loginUserMail,
           pass: this.$store.state.loginUserPass,
@@ -235,7 +236,7 @@ export default {
       } else if (!tester.test(this.newMail)) {
         this.errMail = '適切なメールアドレスを入力してください。'
       } else {
-        this.$store.dispatch('changeMail', {
+        this.$store.commit('changeMail', {
           email: this.$store.state.loginUserMail,
           pass: this.$store.state.loginUserPass,
           newEmail: this.newMail,
@@ -245,7 +246,7 @@ export default {
     },
     doChangeProfile() {
       if (this.newProfile !== '') {
-        this.$store.dispatch('changeProfile', {
+        this.$store.commit('changeProfile', {
           profile: this.newProfile,
           email: this.$store.state.loginUserMail,
           pass: this.$store.state.loginUserPass,
@@ -259,7 +260,7 @@ export default {
     },
     doChangeAge() {
       if (this.newAge !== '') {
-        this.$store.dispatch('changeAge', {
+        this.$store.commit('changeAge', {
           age: this.newAge,
           email: this.$store.state.loginUserMail,
           pass: this.$store.state.loginUserPass,
@@ -273,7 +274,7 @@ export default {
     },
     doChangeAddress() {
       if (this.newAddress !== '') {
-        this.$store.dispatch('changeAddress', {
+        this.$store.commit('changeAddress', {
           address: this.newAddress,
           email: this.$store.state.loginUserMail,
           pass: this.$store.state.loginUserPass,
@@ -287,7 +288,7 @@ export default {
     },
     doChangePlan() {
       if (this.newPlan !== '') {
-        this.$store.dispatch('changeRequestPlan', {
+        this.$store.commit('changeRequestPlan', {
           plan: this.newPlan,
           email: this.$store.state.loginUserMail,
           pass: this.$store.state.loginUserPass,
@@ -305,16 +306,17 @@ export default {
       } else if (!tester.test(this.newPass)) {
         this.errPass = '6文字以上の適切なパスワードを入力してください。'
       } else {
-        this.$store.dispatch('changePass', {
+        this.$store.commit('changePass', {
           email: this.$store.state.loginUserMail,
           pass: this.$store.state.loginUserPass,
           newPass: this.newPass,
           storage: 'users',
         })
+        this.newPass = ''
       }
     },
     doSearchCoach() {
-      this.$store.dispatch('searchCoach', this.searchWord)
+      this.$store.commit('searchCoach', this.searchWord)
     },
     doLogout() {
       this.$store.dispatch('logout')

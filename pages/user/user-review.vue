@@ -3,7 +3,9 @@
     <!-- ナビゲーションバー -->
     <b-navbar toggleable="lg" class="header-color">
       <b-navbar-brand style="margin-top: -1%"
-        ><span class="title-font">YourCoach</span>
+        ><span class="title-font"
+          ><nuxt-link to="/user/user-profile">YourCoach</nuxt-link></span
+        >
         <input
           v-model.trim="searchWord"
           type="text"
@@ -12,7 +14,6 @@
         />
         <button class="btn btn-primary" @click="doSearchCoach">検索</button>
       </b-navbar-brand>
-
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav style="text-align: right; margin-left: 25%">
@@ -49,15 +50,26 @@
     <form style="margin: 2em auto; max-width: 40%">
       <div class="form-group">
         <label>レビュー投稿内容</label>
-        <textarea v-model="message" rows="3" class="form-control" />
+        <textarea
+          v-model="review"
+          rows="3"
+          class="form-control"
+          placeholder="review"
+        />
       </div>
       <button
+        type="button"
         class="btn btn-outline-success"
-        style="margin-top: 0.3em"
-        @click="doPostReview(review)"
+        style="margin-top: 1em"
+        @click="doPostReview"
       >
         投稿
       </button>
+      <button class="btn btn-info" style="margin: 1em 0 0 1em">
+        <nuxt-link to="/user/user-coach-list">戻る</nuxt-link>
+      </button>
+      <br />
+      <div style="color: green; margin-top: 1em">{{ resultMessage }}</div>
     </form>
   </div>
 </template>
@@ -65,9 +77,17 @@
 <script lang="ts">
 export default {
   data: () => ({
+    resultMessage: '' as string,
     review: '' as string,
+    searchWord: '' as string,
   }),
   computed: {
+    getID: {
+      get() {
+        return this.$store.getters.getID
+      },
+    },
+
     getSearchText: {
       get() {
         return this.$store.getters.getSearchText
@@ -76,10 +96,16 @@ export default {
   },
   methods: {
     doPostReview() {
-      this.$store.dispatch('postReview', this.review)
+      if (this.review === '') {
+        this.resultMessage = '何も入力されていません。'
+      } else {
+        this.$store.commit('postReview', this.review)
+        this.review = ''
+        this.resultMessage = 'レビューを投稿しました。'
+      }
     },
     doSearchCoach() {
-      this.$store.dispatch('searchCoach', this.searchWord)
+      this.$store.commit('searchCoach', this.searchWord)
     },
     doLogout() {
       this.$store.dispatch('logout')

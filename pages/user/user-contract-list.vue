@@ -3,7 +3,9 @@
     <!-- ナビゲーションバー -->
     <b-navbar toggleable="lg" class="header-color">
       <b-navbar-brand style="margin-top: -1%"
-        ><span class="title-font">YourCoach</span>
+        ><span class="title-font"
+          ><nuxt-link to="/user/user-profile">YourCoach</nuxt-link></span
+        >
         <input
           v-model.trim="searchWord"
           type="text"
@@ -12,7 +14,6 @@
         />
         <button class="btn btn-primary" @click="doSearchCoach">検索</button>
       </b-navbar-brand>
-
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav style="text-align: right; margin-left: 25%">
@@ -85,11 +86,19 @@
           <div class="profile-box2">
             {{ contract.contents }}
           </div>
-          <button class="btn btn-info mt-3" style="margin-left: 7.5em">
-            <nuxt-link to="/user/user-chat">チャット画面</nuxt-link>
+          <button
+            class="btn btn-info mt-3"
+            style="margin-left: 3em"
+            @click="goChat(contract.coachID)"
+          >
+            チャット画面へ移動する
           </button>
-          <button class="btn btn-info mt-3" style="margin-left: 3em">
-            <nuxt-link to="/user/user-review">レビューを書く</nuxt-link>
+          <button
+            class="btn btn-info mt-3"
+            style="margin-left: 3em"
+            @click="goPostReview(contract.coachID)"
+          >
+            レビューを書く
           </button>
           <br />
         </div>
@@ -135,6 +144,7 @@ export default {
           coachName: contractData.CoachName,
           planName: contractData.PlanName,
           contents: contractData.PlanContents,
+          coachID: contractData.CoachID,
         }
         this.contracts.push(pushContract)
       })
@@ -142,7 +152,13 @@ export default {
   },
   methods: {
     doSearchCoach() {
-      this.$store.dispatch('searchCoach', this.searchWord)
+      this.$store.commit('searchCoach', this.searchWord)
+    },
+    goPostReview(coachID: string) {
+      this.$store.commit('getPostReview', coachID)
+    },
+    goChat(coachID: string) {
+      this.$store.commit('getChat', coachID)
     },
     doLogout() {
       this.$store.dispatch('logout')

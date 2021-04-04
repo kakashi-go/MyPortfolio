@@ -23,7 +23,7 @@
             >
           </b-nav-item>
           <b-nav-item>
-            <nuxt-link to="/coach/coach-profile">
+            <nuxt-link to="/coach/coach-contract-list">
               <button class="btn btn-info ml-4">
                 コーチ中のユーザ一覧
               </button></nuxt-link

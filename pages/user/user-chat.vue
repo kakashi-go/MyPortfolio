@@ -3,7 +3,9 @@
     <!-- ナビゲーションバー -->
     <b-navbar toggleable="lg" class="header-color">
       <b-navbar-brand style="margin-top: -1%"
-        ><span class="title-font">YourCoach</span>
+        ><span class="title-font"
+          ><nuxt-link to="/user/user-profile">YourCoach</nuxt-link></span
+        >
         <input
           v-model.trim="searchWord"
           type="text"
@@ -52,12 +54,14 @@
         <textarea v-model="message" rows="3" class="form-control" />
       </div>
       <button
-        class="btn btn-outline-primary"
-        style="margin-top: 0.3em"
-        @click="doPostMessage()"
+        type="button"
+        class="btn btn-outline-success"
+        style="margin-top: 1em"
+        @click="doChat"
       >
         投稿
       </button>
+      <div style="color: green; margin-top: 1em">{{ resultMessage }}</div>
     </form>
     <!-- チャット内容 -->
     <!-- <div v-for="chatContent in chatContents" :key="chatContent.index">
@@ -67,13 +71,13 @@
 </template>
 
 <script lang="ts">
-import firebase from '@/plugins/firebase'
 export default {
   data: () => ({
     talkerName: '' as string,
+    resultMessage: '' as string,
     message: '' as string,
-    //messages: [] as Array<string>,
     chatContents: [] as Array<string>,
+    searchWord: '' as string,
   }),
   computed: {
     getSearchText: {
@@ -94,13 +98,20 @@ export default {
     // })
   },
   methods: {
-    doPostMessage() {
-      //this.chatContents.unshift(message)
-      this.chatContents.unshift(this.message)
-      this.$store.dispatch('postMessage', this.chatContents)
+    doChat() {
+      if (this.message === '') {
+        this.resultMessage = '何も入力されていません。'
+      } else {
+        this.chatContents.unshift(this.message)
+
+        console.log(this.chatContents)
+
+        this.$store.commit('Chat', this.chatContents)
+        this.message = ''
+      }
     },
     doSearchCoach() {
-      this.$store.dispatch('searchCoach', this.searchWord)
+      this.$store.commit('searchCoach', this.searchWord)
     },
     doLogout() {
       this.$store.dispatch('logout')

@@ -3,7 +3,9 @@
     <!-- ナビゲーションバー -->
     <b-navbar toggleable="lg" class="header-color">
       <b-navbar-brand style="margin-top: -1%"
-        ><div class="title-font">YourCoach</div></b-navbar-brand
+        ><div class="title-font">
+          <nuxt-link to="/coach/coach-profile">YourCoach</nuxt-link>
+        </div></b-navbar-brand
       >
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
@@ -23,7 +25,7 @@
             >
           </b-nav-item>
           <b-nav-item>
-            <nuxt-link to="/coach/coach-profile">
+            <nuxt-link to="/coach/coach-contract-list">
               <button class="btn btn-info ml-4">
                 コーチ中のユーザ一覧
               </button></nuxt-link
@@ -42,7 +44,8 @@
       <div style="text-align: center">
         アカウント削除画面 <br /><br />
         下記のアカウントを本当に削除しますか？<br />
-        <button class="btn btn-danger mt-3" @click="deleteCoach">はい</button
+        <button class="btn btn-danger mt-3" @click="deleteCoach">
+          <nuxt-link to="/coach/coach-deleted">はい</nuxt-link></button
         ><button class="btn btn-info mt-3" style="margin-left: 4em">
           <nuxt-link to="/coach/coach-profile">戻る</nuxt-link></button
         ><br /><br />

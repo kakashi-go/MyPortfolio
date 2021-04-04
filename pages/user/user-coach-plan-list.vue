@@ -3,7 +3,9 @@
     <!-- ナビゲーションバー -->
     <b-navbar toggleable="lg" class="header-color">
       <b-navbar-brand style="margin-top: -1%"
-        ><span class="title-font">YourCoach</span>
+        ><span class="title-font"
+          ><nuxt-link to="/user/user-profile">YourCoach</nuxt-link></span
+        >
         <input
           v-model.trim="searchWord"
           type="text"
@@ -12,7 +14,6 @@
         />
         <button class="btn btn-primary" @click="doSearchCoach">検索</button>
       </b-navbar-brand>
-
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav style="text-align: right; margin-left: 25%">
@@ -67,13 +68,13 @@
         class="card"
         style="
           max-width: 50%;
-          margin: 0 auto;
+          margin: 3em auto;
           box-shadow: 0 0 0.2em 0 grey;
           border-radius: 0.4em;
         "
       >
         <div class="row no-gutters">
-          <div class="col-md-4 my-auto">
+          <div class="col-md-4 my-auto mt-3">
             <img :src="plan.image" class="img-box" />
           </div>
           <div class="col-md-8">
@@ -143,7 +144,7 @@ export default {
     const dbPlan = db
       .collection('coaches')
       .doc(this.$store.state.targetCoachID)
-      .collection('plans')
+      .collection('Plans')
     dbPlan.get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         const planData = doc.data()
@@ -160,10 +161,10 @@ export default {
   },
   methods: {
     doSearchCoach() {
-      this.$store.dispatch('searchCoach', this.searchWord)
+      this.$store.commit('searchCoach', this.searchWord)
     },
     doContract(cName: string, pName: string, pContents: string) {
-      this.$store.dispatch('contractCoach', {
+      this.$store.commit('contractCoach', {
         coachName: cName,
         planName: pName,
         contents: pContents,

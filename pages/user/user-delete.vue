@@ -3,7 +3,9 @@
     <!-- ナビゲーションバー -->
     <b-navbar toggleable="lg" class="header-color">
       <b-navbar-brand style="margin-top: -1%"
-        ><span class="title-font">YourCoach</span>
+        ><span class="title-font"
+          ><nuxt-link to="/user/user-profile">YourCoach</nuxt-link></span
+        >
         <input
           v-model.trim="searchWord"
           type="text"
@@ -50,7 +52,7 @@
       <div style="text-align: center">
         アカウント削除画面 <br /><br />
         下記のアカウントを本当に削除しますか？<br />
-        <nuxt-link to="/user/user-delete-complete">
+        <nuxt-link to="/user/user-deleted">
           <button class="btn btn-danger mt-4" @click="deleteUser">はい</button>
         </nuxt-link>
         <nuxt-link to="/user/user-profile"
@@ -128,7 +130,7 @@ export default {
         })
     },
     doSearchCoach() {
-      this.$store.dispatch('searchCoach', this.searchWord)
+      this.$store.commit('searchCoach', this.searchWord)
     },
     doLogout() {
       this.$store.dispatch('logout')
