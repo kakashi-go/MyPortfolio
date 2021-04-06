@@ -343,6 +343,7 @@ export const mutations = {
     state.searchText = searchWord
     this.$router.push('/user/user-coach-list')
   },
+
   contractCoach(
     state: stateType,
     { coachName, planName, contents }: contractType
@@ -383,7 +384,7 @@ export const mutations = {
               }
             })
           })
-        state.userNum++
+        state.userNum += 1
         db.collection('coaches')
           .doc(state.targetCoachID)
           .update({ GetUserNum: state.userNum })

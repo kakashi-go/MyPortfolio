@@ -4,7 +4,7 @@
     <b-navbar toggleable="lg" class="header-color">
       <b-navbar-brand style="margin-top: -1%"
         ><span class="title-font"
-          ><nuxt-link to="/user/user-profile">>YourCoach</nuxt-link></span
+          ><nuxt-link to="/user/user-profile">YourCoach</nuxt-link></span
         >
         <input
           v-model.trim="searchWord"

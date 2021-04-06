@@ -111,5 +111,36 @@
 </template>
 
 <script lang="ts">
-export default {}
+import firebase from '@/plugins/firebase'
+export default {
+  data: () => ({
+    userNumRank: [0, 0, 0, 0, 0] as Array<number>,
+    coachesName: [
+      '登録なし',
+      '登録なし',
+      '登録なし',
+      '登録なし',
+      '登録なし',
+    ] as Array<string>,
+  }),
+  created() {
+    const db = firebase.firestore()
+    const dbCoach = db.collection('coaches')
+    dbCoach.get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        const coachData = doc.data()
+        this.coachRank.forEach((element) => {})
+        // const pushCoach: coachType = {
+        //   name: coachData.Name ? coachData.Name : '未登録',
+        //   image: coachData.CoachImage ? coachData.CoachImage : '未登録',
+        //   age: coachData.Age ? coachData.Age : 0,
+        //   address: coachData.Address ? coachData.Address : '未登録',
+        //   profile: coachData.Profile ? coachData.Profile : '未登録',
+        //   email: coachData.Email ? coachData.Email : '',
+        //   pass: coachData.Password ? coachData.Password : '',
+        // }
+      })
+    })
+  },
+}
 </script>
