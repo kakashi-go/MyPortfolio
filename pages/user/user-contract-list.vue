@@ -57,7 +57,7 @@
           v-model="contractKeyword"
           type="text"
           class="form-control"
-          placeholder="search word"
+          placeholder="検索ワード"
         />
       </div>
     </div>
@@ -89,7 +89,7 @@
           <button
             class="btn btn-info mt-3"
             style="margin-left: 3em"
-            @click="goChat(contract.coachID)"
+            @click="goUserChat(contract.coachID)"
           >
             チャット画面へ移動する
           </button>
@@ -109,16 +109,16 @@
 
 <script lang="ts">
 import firebase from '@/plugins/firebase'
-import { contractType } from '@/store/types'
+import { userContractType } from '@/store/types'
 export default {
   data: () => ({
     contractKeyword: '' as any,
-    contracts: [] as Array<contractType>,
+    contracts: [] as Array<userContractType>,
     searchWord: '' as any,
   }),
   computed: {
     filteredContracts() {
-      const cutoutContracts = [] as Array<contractType>
+      const cutoutContracts = [] as Array<userContractType>
       this.contracts.forEach((value) => {
         if (
           value.coachName.includes(this.contractKeyword) ||
@@ -140,7 +140,7 @@ export default {
     dbcontract.get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         const contractData = doc.data()
-        const pushContract: contractType = {
+        const pushContract: userContractType = {
           coachName: contractData.CoachName,
           planName: contractData.PlanName,
           contents: contractData.PlanContents,
@@ -157,8 +157,8 @@ export default {
     goPostReview(coachID: string) {
       this.$store.commit('getPostReview', coachID)
     },
-    goChat(coachID: string) {
-      this.$store.commit('getChat', coachID)
+    goUserChat(coachID: string) {
+      this.$store.commit('getUserChat', coachID)
     },
     doLogout() {
       this.$store.dispatch('logout')

@@ -95,13 +95,13 @@
             img-src="~@/assets/image/ranking.png"
             img-alt="ranking"
           >
-            <b-card-text style="font-size: 1.5em">
-              <br />
-              1位:仮<br />
-              2位:仮<br />
-              3位:仮<br />
-              4位:仮<br />
-              5位:仮<br />
+            <b-card-text style="font-size: 2em; font-weight: bold"
+              ><br />
+              <div v-for="(coachScore, index) in coachScores">
+                {{ index + 1 }}位:&ensp;{{
+                  coachScore.coachName
+                }}&ensp;（依頼人数&ensp;{{ coachScore.userNum }}人）<br />
+              </div>
             </b-card-text>
           </b-card>
         </div>
@@ -112,16 +112,11 @@
 
 <script lang="ts">
 import firebase from '@/plugins/firebase'
+import { rankType } from '@/store/types'
 export default {
   data: () => ({
-    userNumRank: [0, 0, 0, 0, 0] as Array<number>,
-    coachesName: [
-      '登録なし',
-      '登録なし',
-      '登録なし',
-      '登録なし',
-      '登録なし',
-    ] as Array<string>,
+    coachScores: [] as Array<rankType>,
+    rimit: 4 as number,
   }),
   created() {
     const db = firebase.firestore()
@@ -129,18 +124,21 @@ export default {
     dbCoach.get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         const coachData = doc.data()
-        this.coachRank.forEach((element) => {})
-        // const pushCoach: coachType = {
-        //   name: coachData.Name ? coachData.Name : '未登録',
-        //   image: coachData.CoachImage ? coachData.CoachImage : '未登録',
-        //   age: coachData.Age ? coachData.Age : 0,
-        //   address: coachData.Address ? coachData.Address : '未登録',
-        //   profile: coachData.Profile ? coachData.Profile : '未登録',
-        //   email: coachData.Email ? coachData.Email : '',
-        //   pass: coachData.Password ? coachData.Password : '',
-        // }
+        const pushRank: rankType = {
+          coachName: coachData.Name,
+          userNum: coachData.GetUserNum,
+        }
+        this.coachScores.push(pushRank)
+        this.coachScores.sort(function (a, b) {
+          if (a.userNum > b.userNum) {
+            return -1
+          } else {
+            return 1
+          }
+        })
       })
     })
+    return this.coachScores.slice(0, this.rimit)
   },
 }
 </script>

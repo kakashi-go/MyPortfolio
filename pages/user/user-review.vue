@@ -49,12 +49,12 @@
     <!-- レビュー投稿画面 -->
     <form style="margin: 2em auto; max-width: 40%">
       <div class="form-group">
-        <label>レビュー投稿内容</label>
+        <label>レビュー内容投稿欄</label>
         <textarea
           v-model="review"
           rows="3"
           class="form-control"
-          placeholder="review"
+          placeholder="レビュー内容"
         />
       </div>
       <button
@@ -66,7 +66,7 @@
         投稿
       </button>
       <button class="btn btn-info" style="margin: 1em 0 0 1em">
-        <nuxt-link to="/user/user-coach-list">戻る</nuxt-link>
+        <nuxt-link to="/user/user-contract-list">戻る</nuxt-link>
       </button>
       <br />
       <div style="color: green; margin-top: 1em">{{ resultMessage }}</div>

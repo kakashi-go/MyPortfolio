@@ -3,39 +3,31 @@
     <!-- ナビゲーションバー -->
     <b-navbar toggleable="lg" class="header-color">
       <b-navbar-brand style="margin-top: -1%"
-        ><span class="title-font"
-          ><nuxt-link to="/user/user-profile">YourCoach</nuxt-link></span
-        >
-        <input
-          v-model.trim="searchWord"
-          type="text"
-          placeholder="コーチ名検索"
-          style="margin-left: 10%"
-        />
-        <button class="btn btn-primary" @click="doSearchCoach">検索</button>
-      </b-navbar-brand>
-
+        ><div class="title-font">
+          <nuxt-link to="/coach/coach-profile">YourCoach</nuxt-link>
+        </div></b-navbar-brand
+      >
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav style="text-align: right; margin-left: 25%">
+        <b-navbar-nav style="text-align: right; margin-left: 40%">
           <b-nav-item>
-            <nuxt-link to="/user/user-profile">
-              <button class="btn btn-info">
+            <nuxt-link to="/coach/coach-profile">
+              <button class="btn btn-info ml-4 center-block">
                 あなたのプロフィール
               </button></nuxt-link
             >
           </b-nav-item>
           <b-nav-item>
-            <nuxt-link to="/user/user-coach-list">
+            <nuxt-link to="/coach/coach-plan-list">
               <button class="btn btn-info ml-4">
-                コーチ一覧とプラン
+                プラン一覧と作成
               </button></nuxt-link
             >
           </b-nav-item>
           <b-nav-item>
-            <nuxt-link to="/user/user-contract-list">
+            <nuxt-link to="/coach/coach-contract-list">
               <button class="btn btn-info ml-4">
-                コーチ依頼履歴
+                コーチ中のユーザ一覧
               </button></nuxt-link
             >
           </b-nav-item>
@@ -62,7 +54,7 @@
         type="button"
         class="btn btn-outline-success"
         style="margin-top: 1em"
-        @click="doChat"
+        @click="doCoachChat"
       >
         投稿
       </button>
@@ -99,12 +91,12 @@ export default {
     const db = firebase.firestore()
     const dbChat = db
       .collection('users')
-      .doc(this.$store.state.loginUserID)
+      .doc(this.$store.state.targetUserID)
       .collection('ContractCoach')
     dbChat.get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         const chatData = doc.data()
-        if (this.$store.state.targetCoachID === chatData.CoachID) {
+        if (this.$store.state.targetUserID === chatData.UserID) {
           chatData.Messages.forEach((value) => {
             this.chatContents.unshift(value)
           })
@@ -113,7 +105,7 @@ export default {
     })
   },
   methods: {
-    doChat() {
+    doCoachChat() {
       if (this.message === '') {
         this.resultMessage = '何も入力されていません。'
       } else {
@@ -121,7 +113,7 @@ export default {
           this.$store.state.loginUserName + ': ' + this.message
         )
         this.$store.commit(
-          'userChat',
+          'coachChat',
           this.$store.state.loginUserName + ': ' + this.message
         )
         this.message = ''

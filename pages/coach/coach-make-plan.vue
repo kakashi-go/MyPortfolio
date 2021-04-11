@@ -47,14 +47,14 @@
       <input
         v-model="planName"
         class="form-control"
-        placeholder="plan name"
+        placeholder="プラン名"
         type="text"
       /><br />
       プランの内容
       <input
         v-model="planContents"
         class="form-control"
-        placeholder="plan contents"
+        placeholder="プラン内容"
         type="text"
       />
       <br />

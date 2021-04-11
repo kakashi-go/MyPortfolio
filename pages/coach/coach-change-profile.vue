@@ -51,7 +51,7 @@
       <input
         v-model="newName"
         class="form-control"
-        placeholder="coach name"
+        placeholder="氏名"
         type="text"
       />
       <div style="color: red">{{ errName }}</div>
@@ -66,7 +66,7 @@
       <input
         v-model="newMail"
         class="form-control"
-        placeholder="name@example.com"
+        placeholder="メールアドレス"
         type="mail"
       /><br />
       <div style="color: red">{{ errMail }}</div>
@@ -80,7 +80,7 @@
       <input
         v-model="newProfile"
         class="form-control"
-        placeholder="profile"
+        placeholder="プロフィール"
         type="text"
       /><br />
       <div style="color: red">{{ errProfile }}</div>
@@ -94,7 +94,7 @@
       <input
         v-model="newSpecialty"
         class="form-control"
-        placeholder="specialty sport"
+        placeholder="専門スポーツ"
         type="text"
       /><br />
       <div style="color: red">{{ errSpecialty }}</div>
@@ -110,7 +110,7 @@
       <input
         v-model="newAge"
         class="form-control"
-        placeholder="age"
+        placeholder="年齢"
         type="text"
       /><br />
       <div style="color: red">{{ errAge }}</div>
@@ -126,7 +126,7 @@
       <input
         v-model="newAddress"
         class="form-control"
-        placeholder="address"
+        placeholder="住所"
         type="text"
       /><br />
       <div style="color: red">{{ errAddress }}</div>

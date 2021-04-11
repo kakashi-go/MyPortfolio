@@ -50,7 +50,7 @@
           v-model="contractKeyword"
           type="text"
           class="form-control"
-          placeholder="search word"
+          placeholder="検索ワード"
         />
       </div>
     </div>
@@ -80,6 +80,13 @@
             {{ contract.contents }}
           </div>
           <br />
+          <button
+            class="btn btn-info mt-3"
+            style="margin-left: 3em"
+            @click="doCoachChat(contract.userID)"
+          >
+            チャット画面へ移動する
+          </button>
         </div>
       </div>
     </div>
@@ -88,16 +95,16 @@
 
 <script lang="ts">
 import firebase from '@/plugins/firebase'
-import { contractUserType } from '@/store/types'
+import { coachContractType } from '@/store/types'
 export default {
   data: () => ({
     contractKeyword: '' as any,
-    contracts: [] as Array<contractUserType>,
+    contracts: [] as Array<coachContractType>,
     searchWord: '' as any,
   }),
   computed: {
     filteredContracts() {
-      const cutoutContracts = [] as Array<contractUserType>
+      const cutoutContracts = [] as Array<coachContractType>
       this.contracts.forEach((value) => {
         if (
           value.contents.includes(this.contractKeyword) ||
@@ -119,12 +126,13 @@ export default {
     dbContract.get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         const contractData = doc.data()
-        const userContract: contractUserType = {
+        const pushContract: coachContractType = {
           userName: contractData.UserName,
           planName: contractData.PlanName,
           contents: contractData.PlanContents,
+          userID: contractData.UserID,
         }
-        this.contracts.push(userContract)
+        this.contracts.push(pushContract)
       })
     })
   },
@@ -134,6 +142,9 @@ export default {
     },
     doLogout() {
       this.$store.dispatch('logout')
+    },
+    doCoachChat(userID: string) {
+      this.$store.commit('getCoachChat', userID)
     },
   },
 }

@@ -248,18 +248,18 @@ body {
 }
 .text {
   opacity: 0.7;
-  background: #98f8eb;
-  background: -moz-linear-gradient(left, #ffffff 0%, #f6b667 100%);
+  background: #f0e0be;
+  background: -moz-linear-gradient(left, #ffffff 0%, #f3f2a7 100%);
   background: -webkit-gradient(
     linear,
     left center,
     right center,
     from(#ffffff),
-    to(#98f8eb)
+    to(#f3f2a7)
   );
-  background: -webkit-linear-gradient(left, #ffffff 0%, #98f8eb 100%);
-  background: -o-linear-gradient(left, #ffffff 0%, #98f8eb 100%);
-  background: linear-gradient(to right, #ffffff 0%, #98f8eb 100%);
+  background: -webkit-linear-gradient(left, #ffffff 0%, #f3f2a7 100%);
+  background: -o-linear-gradient(left, #ffffff 0%, #f3f2a7 100%);
+  background: linear-gradient(to right, #ffffff 0%, #f3f2a7 100%);
 }
 .contents p,
 h4 {
@@ -290,4 +290,19 @@ h4 {
 }
 .carousel-size {
   height: 10px;
+}
+.user-chat-box {
+  margin-top: 1.25em;
+  border-radius: 0.2em;
+  padding: 0.5em;
+  background-color: rgb(232, 247, 240);
+}
+.chat-form {
+  width: 50%;
+  font-size: 1.3em;
+  font-weight: bold;
+  margin: 1em auto;
+  border-radius: 0.2em;
+  padding: 0.5em;
+  background-color: white;
 }

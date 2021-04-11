@@ -1,8 +1,8 @@
 import firebase from '@/plugins/firebase'
 import 'firebase/storage'
-import { variableType, stateType, contractType } from '@/store/types'
-
+import { variablesType, stateType, userContractType } from '@/store/types'
 const db = firebase.firestore()
+/// /////////////////state////////////////////
 export const state = () => ({
   age: 0 as number,
   address: '' as string,
@@ -16,18 +16,17 @@ export const state = () => ({
   profile: '' as string,
   requestPlan: '' as string,
   targetCoachID: '' as string,
+  targetUserID: '' as string,
   searchText: '' as string,
   userNum: 0 as number,
   messages: [] as Array<string>,
   contractID: '' as string,
-  provider: '' as any,
 })
 /// /////////////////getters////////////////////
 export const getters = {
   getID: (state: stateType) => {
     return state.targetCoachID
   },
-
   getName: (state: stateType) => {
     return state.loginUserName
   },
@@ -64,7 +63,7 @@ export const getters = {
 }
 /// /////////////////mutations////////////////////
 export const mutations = {
-  getCoachID(state: stateType, { email, pass }: variableType) {
+  getCoachID(state: stateType, { email, pass }: variablesType) {
     db.collection('coaches')
       .get()
       .then((querySnapshot) => {
@@ -85,7 +84,7 @@ export const mutations = {
         this.$router.push('/user/user-coach-plan-list')
       })
   },
-  changeSpecialty(state: stateType, { specialty, email, pass }: variableType) {
+  changeSpecialty(state: stateType, { specialty, email, pass }: variablesType) {
     db.collection('coaches')
       .get()
       .then((querySnapshot) => {
@@ -107,7 +106,7 @@ export const mutations = {
         throw new Error('変更に失敗しました。')
       })
   },
-  changeName(state: stateType, { name, email, pass, storage }: variableType) {
+  changeName(state: stateType, { name, email, pass, storage }: variablesType) {
     db.collection(storage)
       .get()
       .then((querySnapshot) => {
@@ -132,7 +131,7 @@ export const mutations = {
       Name: name,
     })
   },
-  changeImage(state: stateType, { image, email, pass }: variableType) {
+  changeImage(state: stateType, { image, email, pass }: variablesType) {
     db.collection('coaches')
       .get()
       .then((querySnapshot) => {
@@ -156,7 +155,7 @@ export const mutations = {
   },
   changeMail(
     state: stateType,
-    { email, pass, newEmail, storage }: variableType
+    { email, pass, newEmail, storage }: variablesType
   ) {
     db.collection(storage)
       .get()
@@ -182,7 +181,7 @@ export const mutations = {
   },
   changeProfile(
     state: stateType,
-    { profile, email, pass, storage }: variableType
+    { profile, email, pass, storage }: variablesType
   ) {
     db.collection(storage)
       .get()
@@ -205,7 +204,7 @@ export const mutations = {
         throw new Error('変更に失敗しました。')
       })
   },
-  changeAge(state: stateType, { age, email, pass, storage }: variableType) {
+  changeAge(state: stateType, { age, email, pass, storage }: variablesType) {
     db.collection(storage)
       .get()
       .then((querySnapshot) => {
@@ -229,7 +228,7 @@ export const mutations = {
   },
   changeAddress(
     state: stateType,
-    { address, email, pass, storage }: variableType
+    { address, email, pass, storage }: variablesType
   ) {
     db.collection(storage)
       .get()
@@ -252,7 +251,7 @@ export const mutations = {
         throw new Error('変更に失敗しました。')
       })
   },
-  changeRequestPlan(state: stateType, { plan, email, pass }: variableType) {
+  changeRequestPlan(state: stateType, { plan, email, pass }: variablesType) {
     db.collection('users')
       .get()
       .then((querySnapshot) => {
@@ -275,7 +274,7 @@ export const mutations = {
   },
   changePass(
     state: stateType,
-    { email, pass, newPass, storage }: variableType
+    { email, pass, newPass, storage }: variablesType
   ) {
     db.collection(storage)
       .get()
@@ -301,7 +300,7 @@ export const mutations = {
   },
   makePlan(
     state: stateType,
-    { email, pass, name, plan, contents }: variableType
+    { email, pass, name, plan, contents }: variablesType
   ) {
     db.collection('coaches')
       .get()
@@ -343,16 +342,16 @@ export const mutations = {
     state.searchText = searchWord
     this.$router.push('/user/user-coach-list')
   },
-
   contractCoach(
     state: stateType,
-    { coachName, planName, contents }: contractType
+    { coachName, planName, contents }: userContractType
   ) {
     db.collection('users')
       .doc(state.loginUserID)
       .collection('ContractCoach')
       .add({
         CoachID: state.targetCoachID,
+        UserID: state.loginUserID,
         CoachName: coachName,
         PlanName: planName,
         PlanContents: contents,
@@ -433,11 +432,11 @@ export const mutations = {
         throw new Error('変更に失敗しました。')
       })
   },
-  getChat(state: stateType, coachID: string) {
+  getUserChat(state: stateType, coachID: string) {
     state.targetCoachID = coachID
     this.$router.push('/user/user-chat')
   },
-  Chat(state: stateType, chatContents: Array<string>) {
+  userChat(state: stateType, chatContents: Array<string>) {
     db.collection('users')
       .doc(state.loginUserID)
       .collection('ContractCoach')
@@ -461,7 +460,9 @@ export const mutations = {
           .collection('ContractCoach')
           .doc(state.contractID)
           .update({
-            Messages: firebase.firestore.FieldValue.arrayUnion(chatContents),
+            Messages: firebase.firestore.FieldValue.arrayUnion(
+              ...[chatContents]
+            ),
           })
       })
       .catch((error) => {
@@ -469,7 +470,43 @@ export const mutations = {
         throw new Error('メッセージ投稿に失敗しました。')
       })
   },
-  async getAccount(state: stateType, userInformation: variableType) {
+  getCoachChat(state: stateType, userID: string) {
+    state.targetUserID = userID
+    this.$router.push('/coach/coach-chat')
+  },
+  coachChat(state: stateType, chatContents: Array<string>) {
+    db.collection('users')
+      .doc(state.targetUserID)
+      .collection('ContractCoach')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.docs.forEach((doc, index) => {
+          if (querySnapshot.docs[index].data().UserID === state.targetUserID) {
+            state.contractID = querySnapshot.docs[index].id
+          }
+        })
+      })
+      .catch((error) => {
+        alert(error)
+        throw new Error('対象となるユーザーが存在しません。')
+      })
+      .then(() => {
+        db.collection('users')
+          .doc(state.targetUserID)
+          .collection('ContractCoach')
+          .doc(state.contractID)
+          .update({
+            Messages: firebase.firestore.FieldValue.arrayUnion(
+              ...[chatContents]
+            ),
+          })
+      })
+      .catch((error) => {
+        alert(error)
+        throw new Error('メッセージ投稿に失敗しました。')
+      })
+  },
+  async getAccount(state: stateType, userInformation: variablesType) {
     await firebase
       .auth()
       .createUserWithEmailAndPassword(
@@ -556,7 +593,7 @@ export const mutations = {
         this.$router.push('/user/user-profile')
       })
   },
-  async login(state: stateType, loginInformation: variableType) {
+  async login(state: stateType, loginInformation: variablesType) {
     await firebase
       .auth()
       .signInWithEmailAndPassword(loginInformation.email, loginInformation.pass)
@@ -608,7 +645,7 @@ export const mutations = {
         }
       })
   },
-  async deleteAccount(state: stateType, deleteInformation: variableType) {
+  async deleteAccount(state: stateType, deleteInformation: variablesType) {
     await db
       .collection(deleteInformation.storage)
       .get()
@@ -651,11 +688,11 @@ export const mutations = {
 }
 ////////////////////actions////////////////////
 export const actions = {
-  getAccount({ commit }, { name, email, pass, storage }: variableType) {
+  getAccount({ commit }, { name, email, pass, storage }: variablesType) {
     const userInformation = { name, email, pass, storage }
     commit('getAccount', userInformation)
   },
-  login({ commit }, { email, pass, storage }: variableType) {
+  login({ commit }, { email, pass, storage }: variablesType) {
     const loginInformation = { email, pass, storage }
     commit('login', loginInformation)
   },

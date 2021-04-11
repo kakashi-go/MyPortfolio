@@ -41,7 +41,7 @@
             v-model="userMailAddress"
             type="email"
             class="form-control"
-            placeholder="name@example.com"
+            placeholder="メールアドレス"
           />
         </div>
         <div class="mb-3">
@@ -50,7 +50,7 @@
             v-model="userName"
             type="text"
             class="form-control"
-            placeholder="user name"
+            placeholder="ユーザー名"
           />
         </div>
         <div class="mb-3">
@@ -59,7 +59,7 @@
             v-model="userPassword"
             type="password"
             class="form-control"
-            placeholder="password"
+            placeholder="パスワード"
           />
         </div>
         <div style="text-align: center">

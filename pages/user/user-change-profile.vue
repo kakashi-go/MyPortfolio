@@ -56,7 +56,7 @@
       <input
         v-model="newName"
         class="form-control"
-        placeholder="name"
+        placeholder="氏名"
         type="text"
       /><br />
       <div style="color: red">{{ errName }}</div>
@@ -71,7 +71,7 @@
       <input
         v-model="newMail"
         class="form-control"
-        placeholder="name@example.com"
+        placeholder="メールアドレス"
         type="mail"
       /><br />
       <div style="color: red">{{ errMail }}</div>
@@ -85,7 +85,7 @@
       <input
         v-model="newProfile"
         class="form-control"
-        placeholder="profile"
+        placeholder="プロフィール"
         type="text"
       /><br />
       <div style="color: red">{{ errProfile }}</div>
@@ -101,7 +101,7 @@
       <input
         v-model="newAge"
         class="form-control"
-        placeholder="age"
+        placeholder="年齢"
         type="text"
       /><br />
       <div style="color: red">{{ errAge }}</div>
@@ -117,7 +117,7 @@
       <input
         v-model="newAddress"
         class="form-control"
-        placeholder="address"
+        placeholder="アドレス"
         type="text"
       /><br />
       <div style="color: red">{{ errAddress }}</div>
@@ -130,11 +130,11 @@
       <div class="profile-box2">
         {{ getRequestPlan }}
       </div>
-      希望するスポーツを入力<br />
+      コーチ依頼を希望するスポーツを入力<br />
       <input
         v-model="newPlan"
         class="form-control"
-        placeholder="request plan"
+        placeholder="希望するスポーツ"
         type="text"
       /><br />
       <div style="color: red">{{ errRequestPlan }}</div>
@@ -146,7 +146,7 @@
       <input
         v-model="newPass"
         class="form-control"
-        placeholder="password"
+        placeholder="パスワード"
         type="password"
       /><br />
       <div style="color: red">{{ errPass }}</div>

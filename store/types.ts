@@ -1,4 +1,4 @@
-export interface variableType {
+export interface variablesType {
   name: string
   newEmail: string
   profile: string
@@ -18,7 +18,6 @@ export interface variableType {
   coachID: string
   userID: string
 }
-
 export interface stateType {
   age: number
   address: string
@@ -38,18 +37,20 @@ export interface stateType {
   messages: Array<string>
   contractID: string
   provider: any
-}
-
-export interface coachType {
   image: string
   name: string
+  email: string
+  pass: string
+}
+export interface coachType {
+  name: string
+  image: any
   age: number
   address: string
   profile: string
   email: string
   pass: string
 }
-
 export interface planType {
   coachName: string
   image: any
@@ -57,22 +58,32 @@ export interface planType {
   contents: string
   review: string
 }
-
 export interface makePlanType {
   name: string
   contents: string
   review: string
 }
-
 export interface contractType {
+  coachName: string
+  userName: string
+  planName: string
+  contents: string
+  coachID: string
+  userID: string
+}
+export interface coachContractType {
+  userName: string
+  planName: string
+  contents: string
+  userID: string
+}
+export interface userContractType {
   coachName: string
   planName: string
   contents: string
   coachID: string
 }
-
-export interface contractUserType {
-  contents: string
-  planName: string
-  userName: string
+export interface rankType {
+  coachName: string
+  userNum: number
 }

@@ -58,7 +58,7 @@
           v-model="keyword"
           type="text"
           class="form-control"
-          placeholder="search word"
+          placeholder="検索ワード"
         />
       </div>
     </div>

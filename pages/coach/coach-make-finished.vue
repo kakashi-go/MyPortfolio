@@ -42,7 +42,7 @@
     <!-- プラン作成告知画面 -->
     <div class="report-box">
       プランを作成しました。
-      <nuxt-link to="coach-plan-list"
+      <nuxt-link to="/coach/coach-plan-list"
         ><button class="btn btn-info" style="margin-top: 1em">
           プラン一覧へ戻る
         </button></nuxt-link
