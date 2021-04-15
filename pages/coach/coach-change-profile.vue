@@ -53,9 +53,8 @@
         class="form-control"
         placeholder="氏名"
         type="text"
-      />
+      /><br />
       <div style="color: red">{{ errName }}</div>
-      <br />
       <button class="btn btn-warning" @click="doChangeName">
         氏名を変更する
       </button>
@@ -87,6 +86,12 @@
       <button class="btn btn-warning" @click="doChangeProfile">
         自己紹介文を変更する
       </button>
+      <br /><br />
+      <div class="profile-box2"><img :src="getImage" class="img-box" /></div>
+      <br />
+      プロフィール画像の変更
+      <br />
+      <input type="file" @change="doChangeImage" />
       <br /><br />
       専門スポーツ
       <div class="profile-box2">{{ getSpecialty }}</div>
@@ -138,10 +143,11 @@
       <input
         v-model="newPass"
         class="form-control"
-        placeholder="password"
+        placeholder="パスワード"
         type="password"
       /><br />
       <div style="color: red">{{ errPass }}</div>
+      <br />
       <button class="btn btn-warning" @click="doChangePass">
         パスワードを変更する
       </button>
@@ -252,9 +258,9 @@ export default {
       })
     },
     doChangeMail() {
-      const tester = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      const tester = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
       if (!tester.test(this.newMail)) {
-        this.errMail = '適切なメールアドレスを入力してください。'
+        this.errMail = '半角英数文字でメールアドレスを入力してください。'
       } else {
         this.$store.commit('changeMail', {
           email: this.$store.state.loginUserMail,
@@ -321,7 +327,9 @@ export default {
     },
     doChangePass() {
       const tester = /^[a-z\d]{6,}$/i
-      if (!tester.test(this.newPass)) {
+      if (this.newPass === '') {
+        this.errPass = '何も入力されていません。'
+      } else if (!tester.test(this.newPass)) {
         this.errPass = '6文字以上の適切なパスワードを入力してください。'
       } else {
         this.$store.commit('changePass', {
@@ -331,6 +339,7 @@ export default {
           storage: 'coaches',
         })
         this.newPass = ''
+        this.errPass = 'パスワードを変更しました'
       }
     },
     doLogout() {

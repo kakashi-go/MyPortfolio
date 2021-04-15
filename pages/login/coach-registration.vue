@@ -12,7 +12,7 @@
         <b-navbar-nav style="text-align: right; margin-left: 55%">
           <b-nav-item>
             <nuxt-link to="/login/user-login">
-              <b-button variant="primary">ログイン</b-button>
+              <b-button variant="primary">ユーザーログイン</b-button>
             </nuxt-link>
           </b-nav-item>
           <b-nav-item>
@@ -64,6 +64,8 @@
             placeholder="パスワード"
           />
         </div>
+        <div style="color: red">{{ errMessage }}</div>
+        <br />
         <div style="text-align: center">
           <button class="login-button" @click="coachRegistration">
             コーチ新規登録
@@ -100,16 +102,28 @@ export default {
       coachName: '' as string,
       mailAddress: '' as string,
       password: '' as string,
+      errMessage: '' as string,
     }
   },
   methods: {
     coachRegistration() {
-      this.$store.dispatch('getAccount', {
-        name: this.coachName,
-        email: this.mailAddress,
-        pass: this.password,
-        storage: 'coaches' as string,
-      })
+      const tester = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+      if (
+        this.coachName === '' ||
+        this.mailAddress === '' ||
+        this.password === ''
+      ) {
+        this.errMessage = '未入力の値があります。'
+      } else if (!tester.test(this.mailAddress)) {
+        this.errMessage = '半角英数文字でメールアドレスを入力してください。'
+      } else {
+        this.$store.dispatch('getAccount', {
+          name: this.coachName,
+          email: this.mailAddress,
+          pass: this.password,
+          storage: 'coaches' as string,
+        })
+      }
     },
   },
 }

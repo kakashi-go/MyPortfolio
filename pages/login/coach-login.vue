@@ -12,7 +12,7 @@
         <b-navbar-nav style="text-align: right; margin-left: 55%">
           <b-nav-item>
             <nuxt-link to="/login/user-login">
-              <b-button variant="primary">ログイン</b-button>
+              <b-button variant="primary">ユーザーログイン</b-button>
             </nuxt-link>
           </b-nav-item>
           <b-nav-item>
@@ -53,10 +53,12 @@
             placeholder="パスワード"
           />
         </div>
+        <div style="color: red">{{ errMessage }}</div>
+        <br />
         <div style="text-align: center">
           <button class="login-button" @click="coachLogin">
-            コーチログイン画面
-          </button>
+            コーチログイン画面</button
+          ><br />
         </div>
       </div>
       <!-- ログイン、登録ページのリンク -->
@@ -88,10 +90,14 @@ export default {
     return {
       mailAddress: '' as string,
       password: '' as string,
+      errMessage: '' as string,
     }
   },
   methods: {
     coachLogin() {
+      if (this.mailAddress === '' || this.password === '') {
+        this.errMessage = '未入力の箇所があります。'
+      }
       this.$store.dispatch('login', {
         email: this.mailAddress,
         pass: this.password,

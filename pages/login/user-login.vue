@@ -12,7 +12,7 @@
         <b-navbar-nav style="text-align: right; margin-left: 55%">
           <b-nav-item>
             <nuxt-link to="/login/user-registration">
-              <b-button variant="primary">新規登録</b-button>
+              <b-button variant="primary">ユーザー新規登録</b-button>
             </nuxt-link>
           </b-nav-item>
           <b-nav-item>
@@ -53,6 +53,8 @@
             placeholder="パスワード"
           />
         </div>
+        <div style="color: red">{{ errMessage }}</div>
+        <br />
         <div style="text-align: center">
           <button class="login-button" @click="userLogin">ログイン</button>
           <br /><button
@@ -93,10 +95,14 @@ export default {
     return {
       userMailAddress: '' as string,
       userPassword: '' as string,
+      errMessage: '' as string,
     }
   },
   methods: {
     userLogin() {
+      if (this.userMailAddress === '' || this.userPassword === '') {
+        this.errMessage = '未入力の箇所があります。'
+      }
       this.$store.dispatch('login', {
         email: this.userMailAddress,
         pass: this.userPassword,

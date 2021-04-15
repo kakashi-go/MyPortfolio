@@ -9,7 +9,7 @@
         <input
           v-model.trim="searchWord"
           type="text"
-          placeholder="コーチ名検索"
+          placeholder="コーチ検索ワード"
           style="margin-left: 10%"
         />
         <button class="btn btn-primary" @click="doSearchCoach">検索</button>

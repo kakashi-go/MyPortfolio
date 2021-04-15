@@ -9,10 +9,15 @@
         <input
           v-model.trim="searchWord"
           type="text"
-          placeholder="コーチ名検索"
+          placeholder="コーチ検索ワード"
           style="margin-left: 10%"
         />
-        <button class="btn btn-primary" @click="doSearchCoach">検索</button>
+        <button class="btn btn-primary" @click="doSearchCoach(exist)">
+          検索
+        </button>
+        <button class="btn btn-light" @click="doSearchCoach(none)">
+          検索リセット
+        </button>
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -47,7 +52,7 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-    <!-- 検索ボックス -->
+    <!-- 検索ボックス
     <br />
     <div class="coach-search-box">
       <label class="form-label"
@@ -55,14 +60,14 @@
       >
       <div class="input-form">
         <input
-          v-model="keyword"
+          v-model="addKeyword"
           type="text"
           class="form-control"
           placeholder="検索ワード"
         />
       </div>
     </div>
-    <br />
+    <br /> -->
     <!-- コーチ一覧 -->
     <div v-for="coach in filteredCoaches" :key="coach.index">
       <div
@@ -76,6 +81,7 @@
       >
         <div class="row no-gutters">
           <div class="col-md-4 my-auto">
+            <br />
             <img :src="coach.image" class="img-box" />
           </div>
           <div class="col-md-8">
@@ -115,10 +121,10 @@ import firebase from '@/plugins/firebase'
 import { coachType } from '@/store/types'
 export default {
   data: () => ({
-    keyword: '' as any,
-    addKeyword: '' as any,
     coaches: [] as Array<coachType>,
-    searchWord: '' as any,
+    searchWord: '' as string,
+    exist: true as boolean,
+    none: false as boolean,
   }),
   computed: {
     getSearchText: {
@@ -128,16 +134,12 @@ export default {
     },
     filteredCoaches() {
       const cutoutCoaches = [] as Array<coachType>
-      if (this.getSearchText !== '') {
-        this.keyword = this.getSearchText
-      }
       this.coaches.forEach((value) => {
         if (
-          value.name.includes(this.keyword) &&
-          (value.name.includes(this.addKeyword) ||
-            value.address.includes(this.addKeyword) ||
-            value.age.includes(this.addKeyword) ||
-            value.profile.includes(this.addkeyword))
+          value.name.includes(this.getSearchText) ||
+          value.address.includes(this.getSearchText) ||
+          String(value.age).includes(this.getSearchText) ||
+          value.profile.includes(this.getSearchText)
         ) {
           cutoutCoaches.push(value)
         }
@@ -168,8 +170,13 @@ export default {
     doGetCoachID(coachEmail: string, coachPass: string) {
       this.$store.commit('getCoachID', { email: coachEmail, pass: coachPass })
     },
-    doSearchCoach() {
-      this.$store.commit('searchCoach', this.searchWord)
+    doSearchCoach(flag: boolean) {
+      if (flag === true) {
+        this.$store.commit('searchCoach', this.searchWord)
+      } else {
+        this.searchWord = ''
+        this.$store.commit('searchCoach', this.searchWord)
+      }
     },
     doLogout() {
       this.$store.dispatch('logout')

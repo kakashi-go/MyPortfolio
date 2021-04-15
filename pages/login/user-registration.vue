@@ -12,7 +12,7 @@
         <b-navbar-nav style="text-align: right; margin-left: 55%">
           <b-nav-item>
             <nuxt-link to="/login/user-login">
-              <b-button variant="primary">ログイン</b-button>
+              <b-button variant="primary">ユーザーログイン</b-button>
             </nuxt-link>
           </b-nav-item>
           <b-nav-item>
@@ -62,6 +62,8 @@
             placeholder="パスワード"
           />
         </div>
+        <div style="color: red">{{ errMessage }}</div>
+        <br />
         <div style="text-align: center">
           <button class="login-button" @click="registUser">
             ユーザ新規登録
@@ -98,16 +100,28 @@ export default {
       userName: '' as string,
       userMailAddress: '' as string,
       userPassword: '' as string,
+      errMessage: '' as string,
     }
   },
   methods: {
     registUser() {
-      this.$store.dispatch('getAccount', {
-        name: this.userName,
-        email: this.userMailAddress,
-        pass: this.userPassword,
-        storage: 'users' as string,
-      })
+      const tester = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+      if (
+        this.userName === '' ||
+        this.userMailAddress === '' ||
+        this.userPassword === ''
+      ) {
+        this.errMessage = '未入力の値があります。'
+      } else if (!tester.test(this.userMailAddress)) {
+        this.errMessage = '半角英数文字でメールアドレスを入力してください。'
+      } else {
+        this.$store.dispatch('getAccount', {
+          name: this.userName,
+          email: this.userMailAddress,
+          pass: this.userPassword,
+          storage: 'users' as string,
+        })
+      }
     },
   },
 }

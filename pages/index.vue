@@ -11,12 +11,12 @@
         <b-navbar-nav style="text-align: right; margin-left: 55%">
           <b-nav-item>
             <nuxt-link to="/login/user-login">
-              <b-button variant="primary">ログイン</b-button>
+              <b-button variant="primary">ユーザーログイン</b-button>
             </nuxt-link>
           </b-nav-item>
           <b-nav-item>
             <nuxt-link to="/login/user-registration">
-              <b-button variant="primary">新規登録</b-button>
+              <b-button variant="primary">ユーザー新規登録</b-button>
             </nuxt-link>
           </b-nav-item>
           <b-nav-item>
@@ -89,18 +89,20 @@
       </div>
       <!-- コーチのランキング -->
       <div class="row justify-content-center">
-        <div class="w-50 mt-5 bg-light">
+        <div class="mt-5 bg-light" style="width: 40%">
           <b-card
-            title="先週のコーチ依頼数ランキング"
+            title="依頼数が多いコーチTOP5"
             img-src="~@/assets/image/ranking.png"
             img-alt="ranking"
           >
             <b-card-text style="font-size: 2em; font-weight: bold"
               ><br />
               <div v-for="(coachScore, index) in coachScores">
-                {{ index + 1 }}位:&ensp;{{
-                  coachScore.coachName
-                }}&ensp;（依頼人数&ensp;{{ coachScore.userNum }}人）<br />
+                <li>
+                  {{ coachScore.coachName }}&ensp;（依頼人数&ensp;{{
+                    coachScore.userNum
+                  }}人）<br />
+                </li>
               </div>
             </b-card-text>
           </b-card>

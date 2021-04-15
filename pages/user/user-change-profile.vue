@@ -9,7 +9,7 @@
         <input
           v-model.trim="searchWord"
           type="text"
-          placeholder="コーチ名検索"
+          placeholder="コーチ検索ワード"
           style="margin-left: 10%"
         />
         <button class="btn btn-primary" @click="doSearchCoach">検索</button>
@@ -230,11 +230,11 @@ export default {
       }
     },
     doChangeMail() {
-      const tester = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      const tester = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
       if (this.newMail === '') {
         this.errMail = '何も入力されていません。'
       } else if (!tester.test(this.newMail)) {
-        this.errMail = '適切なメールアドレスを入力してください。'
+        this.errMail = '半角英数文字でメールアドレスを入力してください。'
       } else {
         this.$store.commit('changeMail', {
           email: this.$store.state.loginUserMail,
@@ -313,6 +313,7 @@ export default {
           storage: 'users',
         })
         this.newPass = ''
+        this.errPass = 'パスワードを変更しました'
       }
     },
     doSearchCoach() {

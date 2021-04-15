@@ -9,7 +9,7 @@
         <input
           v-model.trim="searchWord"
           type="text"
-          placeholder="コーチ名検索"
+          placeholder="コーチ検索ワード"
           style="margin-left: 10%"
         />
         <button class="btn btn-primary" @click="doSearchCoach">検索</button>
@@ -65,10 +65,6 @@
       >
         投稿
       </button>
-      <button class="btn btn-info" style="margin: 1em 0 0 1em">
-        <nuxt-link to="/user/user-contract-list">戻る</nuxt-link>
-      </button>
-      <br />
       <div style="color: green; margin-top: 1em">{{ resultMessage }}</div>
     </form>
   </div>

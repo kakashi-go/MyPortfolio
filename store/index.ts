@@ -368,7 +368,7 @@ export const mutations = {
           .add({
             UserID: state.loginUserID,
             CoachID: state.targetCoachID,
-            UserName: coachName,
+            UserName: state.loginUserName,
             PlanName: planName,
             PlanContents: contents,
           })
@@ -380,13 +380,13 @@ export const mutations = {
             querySnapshot.docs.forEach((doc, index) => {
               if (querySnapshot.docs[index].id === state.targetCoachID) {
                 state.userNum = querySnapshot.docs[index].data().GetUserNum
+                state.userNum += 1
+                db.collection('coaches')
+                  .doc(state.targetCoachID)
+                  .update({ GetUserNum: state.userNum })
               }
             })
           })
-        state.userNum += 1
-        db.collection('coaches')
-          .doc(state.targetCoachID)
-          .update({ GetUserNum: state.userNum })
       })
       .catch((error) => {
         alert(error)
@@ -589,8 +589,11 @@ export const mutations = {
         alert(error)
         throw new Error('ログインに失敗しました。')
       })
-      .then(() => {
+      .then((result) => {
+        //開発途中
         this.$router.push('/user/user-profile')
+        console.log(result.user.displayName)
+        console.log(result.user)
       })
   },
   async login(state: stateType, loginInformation: variablesType) {
