@@ -33,7 +33,7 @@
       <br />
       <br />
       <div class="login-box">
-        <h2 style="text-align: center">ユーザ新規登録画面</h2>
+        <h2 style="text-align: center">ユーザー新規登録画面</h2>
         <br />
         <div class="mb-3">
           <label class="form-label">メールアドレス</label>
@@ -66,14 +66,14 @@
         <br />
         <div style="text-align: center">
           <button class="login-button" @click="registUser">
-            ユーザ新規登録
+            ユーザー新規登録
           </button>
         </div>
       </div>
       <!-- ログイン、登録ページのリンク -->
       <div class="links" style="text-align: center">
         <br />
-        ユーザとしてログインする場合は
+        ユーザーとしてログインする場合は
         <button class="login-button">
           <nuxt-link to="/login/user-login">こちら</nuxt-link></button
         ><br /><br />
@@ -113,7 +113,8 @@ export default {
       ) {
         this.errMessage = '未入力の値があります。'
       } else if (!tester.test(this.userMailAddress)) {
-        this.errMessage = '半角英数文字でメールアドレスを入力してください。'
+        this.errMessage =
+          'メールアドレスが半角文字でないか、形式が正しくありません。'
       } else {
         this.$store.dispatch('getAccount', {
           name: this.userName,

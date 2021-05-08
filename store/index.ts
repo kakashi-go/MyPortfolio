@@ -165,7 +165,14 @@ export const mutations = {
             querySnapshot.docs[index].data().Email === email &&
             querySnapshot.docs[index].data().Password === pass
           ) {
-            firebase.auth().currentUser.updateEmail(newEmail)
+            let unsubscribe: any = firebase
+              .auth()
+              .onAuthStateChanged((user) => {
+                if (user) {
+                  user.updateEmail(newEmail)
+                }
+                unsubscribe()
+              })
             state.loginUserID = querySnapshot.docs[index].id
             state.loginUserMail = newEmail
             db.collection(storage).doc(state.loginUserID).update({
@@ -284,7 +291,14 @@ export const mutations = {
             querySnapshot.docs[index].data().Email === email &&
             querySnapshot.docs[index].data().Password === pass
           ) {
-            firebase.auth().currentUser.updatePassword(newPass)
+            let unsubscribe: any = firebase
+              .auth()
+              .onAuthStateChanged((user) => {
+                if (user) {
+                  user.updatePassword(newPass)
+                }
+                unsubscribe()
+              })
             state.loginUserID = querySnapshot.docs[index].id
             db.collection(storage).doc(state.loginUserID).update({
               Password: newPass,
@@ -591,9 +605,9 @@ export const mutations = {
       })
       .then((result) => {
         //開発途中
-        this.$router.push('/user/user-profile')
-        console.log(result.user.displayName)
-        console.log(result.user)
+        // this.$router.push('/user/user-profile')
+        // console.log(result.user.displayName)
+        // console.log(result.user)
       })
   },
   async login(state: stateType, loginInformation: variablesType) {
@@ -667,7 +681,12 @@ export const mutations = {
         db.collection(deleteInformation.storage).doc(state.loginUserID).delete()
       })
       .then(() => {
-        firebase.auth().currentUser.delete()
+        let unsubscribe: any = firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            user.delete()
+          }
+          unsubscribe()
+        })
       })
       .catch((error) => {
         alert(error)

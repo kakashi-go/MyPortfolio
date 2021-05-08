@@ -33,7 +33,7 @@
       <br />
       <br />
       <div class="login-box">
-        <h2 style="text-align: center">ユーザログイン画面</h2>
+        <h2 style="text-align: center">ユーザーログイン画面</h2>
         <br />
         <div class="mb-3">
           <label class="form-label">メールアドレス</label>
@@ -56,7 +56,9 @@
         <div style="color: red">{{ errMessage }}</div>
         <br />
         <div style="text-align: center">
-          <button class="login-button" @click="userLogin">ログイン</button>
+          <button class="login-button" @click="userLogin">
+            ユーザーログイン
+          </button>
           <br /><button
             class="login-button"
             style="margin-top: 1em"
@@ -73,7 +75,7 @@
         <button class="login-button">
           <nuxt-link to="/login/coach-login">こちら</nuxt-link></button
         ><br /><br />
-        ユーザの新規登録は
+        ユーザーの新規登録は
         <button class="login-button">
           <nuxt-link to="/login/user-registration">こちら</nuxt-link></button
         ><br /><br />

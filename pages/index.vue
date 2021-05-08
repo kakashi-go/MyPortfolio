@@ -97,7 +97,7 @@
           >
             <b-card-text style="font-size: 2em; font-weight: bold"
               ><br />
-              <div v-for="(coachScore, index) in coachScores">
+              <div v-for="coachScore in coachScores">
                 <li>
                   {{ coachScore.coachName }}&ensp;（依頼人数&ensp;{{
                     coachScore.userNum
@@ -118,7 +118,7 @@ import { rankType } from '@/store/types'
 export default {
   data: () => ({
     coachScores: [] as Array<rankType>,
-    rimit: 4 as number,
+    rimit: 5 as number,
   }),
   created() {
     const db = firebase.firestore()
@@ -138,9 +138,9 @@ export default {
             return 1
           }
         })
+        return this.coachScores.splice(this.rimit, Number.MAX_SAFE_INTEGER)
       })
     })
-    return this.coachScores.slice(0, this.rimit)
   },
 }
 </script>

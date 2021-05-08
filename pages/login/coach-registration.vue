@@ -17,7 +17,7 @@
           </b-nav-item>
           <b-nav-item>
             <nuxt-link to="/login/user-registration">
-              <b-button variant="primary">新規登録</b-button>
+              <b-button variant="primary">ユーザー新規登録</b-button>
             </nuxt-link>
           </b-nav-item>
           <b-nav-item>
@@ -75,7 +75,7 @@
       <!-- ログイン、登録ページのリンク -->
       <div class="links" style="text-align: center">
         <br />
-        ユーザとしてログインする場合は
+        ユーザーとしてログインする場合は
         <button class="login-button">
           <nuxt-link to="/login/user-login">こちら</nuxt-link></button
         ><br /><br />
@@ -83,7 +83,7 @@
         <button class="login-button">
           <nuxt-link to="/login/coach-login">こちら</nuxt-link></button
         ><br /><br />
-        ユーザの新規登録は
+        ユーザーの新規登録は
         <button class="login-button">
           <nuxt-link to="/login/user-registration">こちら</nuxt-link></button
         ><br /><br />
@@ -115,7 +115,8 @@ export default {
       ) {
         this.errMessage = '未入力の値があります。'
       } else if (!tester.test(this.mailAddress)) {
-        this.errMessage = '半角英数文字でメールアドレスを入力してください。'
+        this.errMessage =
+          'メールアドレスが半角文字でないか、形式が正しくありません。'
       } else {
         this.$store.dispatch('getAccount', {
           name: this.coachName,

@@ -101,8 +101,8 @@ export default {
       .collection('users')
       .doc(this.$store.state.loginUserID)
       .collection('ContractCoach')
-    dbChat.get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
+    dbChat.get().then((onSnapshot) => {
+      onSnapshot.forEach((doc) => {
         const chatData = doc.data()
         if (this.$store.state.targetCoachID === chatData.CoachID) {
           chatData.Messages.forEach((value) => {
@@ -117,9 +117,6 @@ export default {
       if (this.message === '') {
         this.resultMessage = '何も入力されていません。'
       } else {
-        this.chatContents.unshift(
-          this.$store.state.loginUserName + ': ' + this.message
-        )
         this.$store.commit(
           'userChat',
           this.$store.state.loginUserName + ': ' + this.message

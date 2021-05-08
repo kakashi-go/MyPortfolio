@@ -234,7 +234,8 @@ export default {
       if (this.newMail === '') {
         this.errMail = '何も入力されていません。'
       } else if (!tester.test(this.newMail)) {
-        this.errMail = '半角英数文字でメールアドレスを入力してください。'
+        this.errMail =
+          'メールアドレスが半角文字でないか、形式が正しくありません。'
       } else {
         this.$store.commit('changeMail', {
           email: this.$store.state.loginUserMail,
