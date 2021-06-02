@@ -101,10 +101,11 @@ export default {
       .collection('users')
       .doc(this.$store.state.loginUserID)
       .collection('ContractCoach')
-    dbChat.get().then((onSnapshot) => {
-      onSnapshot.forEach((doc) => {
+    dbChat.onSnapshot((snapshot) => {
+      snapshot.forEach((doc) => {
         const chatData = doc.data()
         if (this.$store.state.targetCoachID === chatData.CoachID) {
+          this.chatContents = []
           chatData.Messages.forEach((value) => {
             this.chatContents.unshift(value)
           })

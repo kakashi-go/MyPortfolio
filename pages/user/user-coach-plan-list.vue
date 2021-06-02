@@ -74,39 +74,34 @@
         "
       >
         <div class="row no-gutters">
-          <div class="col-md-4 my-auto mt-3">
-            <img :src="plan.image" class="img-box" />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">コーチの氏名</h5>
-              <div class="profile-box2">
-                {{ plan.coachName }}
-              </div>
-              プラン名 <br />
-              <div class="profile-box2">
-                {{ plan.name }}
-              </div>
-              プラン内容 <br />
-              <div class="profile-box2">
-                {{ plan.contents }}
-              </div>
-              プランレビュー <br />
-              <div class="profile-box2">
-                {{ plan.review }}
-              </div>
-              <button
-                class="btn btn-success mt-3"
-                @click="doContract(plan.coachName, plan.name, plan.contents)"
-              >
-                コーチを依頼する
-              </button>
-              <nuxt-link to="/user/user-coach-list">
-                <button class="btn btn-info mt-3" style="margin-left: 2em">
-                  戻る
-                </button>
-              </nuxt-link>
+          <div class="card-body" style="margin: 1em 1em 1em 1em">
+            <h5 class="card-title">コーチの氏名</h5>
+            <div class="profile-box2">
+              {{ plan.coachName }}
             </div>
+            プラン名 <br />
+            <div class="profile-box2">
+              {{ plan.name }}
+            </div>
+            プラン内容 <br />
+            <div class="profile-box2">
+              {{ plan.contents }}
+            </div>
+            プランレビュー <br />
+            <div class="profile-box2">
+              {{ plan.review }}
+            </div>
+            <button
+              class="btn btn-success mt-3"
+              @click="doContract(plan.coachName, plan.name, plan.contents)"
+            >
+              コーチを依頼する
+            </button>
+            <nuxt-link to="/user/user-coach-list">
+              <button class="btn btn-info mt-3" style="margin-left: 2em">
+                戻る
+              </button>
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -149,7 +144,6 @@ export default {
         const planData = doc.data()
         const pushPlan: planType = {
           coachName: planData.CoachName,
-          image: planData.CoachImage,
           name: planData.PlanName,
           contents: planData.PlanContents,
           review: planData.PlanReview,

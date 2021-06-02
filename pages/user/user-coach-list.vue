@@ -157,6 +157,9 @@ export default {
           name: coachData.Name ? coachData.Name : '未登録',
           image: coachData.CoachImage ? coachData.CoachImage : '未登録',
           age: coachData.Age ? coachData.Age : 0,
+          specialty: coachData.CoachSpecialty
+            ? coachData.CoachSpecialty
+            : '未登録',
           address: coachData.Address ? coachData.Address : '未登録',
           profile: coachData.Profile ? coachData.Profile : '未登録',
           email: coachData.Email ? coachData.Email : '',
