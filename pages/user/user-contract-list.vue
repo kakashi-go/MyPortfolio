@@ -12,8 +12,14 @@
           placeholder="コーチ検索ワード"
           style="margin-left: 10%"
         />
-        <button class="btn btn-primary" @click="doSearchCoach">検索</button>
+        <button class="btn btn-primary" @click="doSearchCoach(exist)">
+          検索
+        </button>
+        <button class="btn btn-light" @click="doSearchCoach(none)">
+          検索リセット
+        </button>
       </b-navbar-brand>
+
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav style="text-align: right; margin-left: 25%">
@@ -46,61 +52,52 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-    <!-- 検索ボックス -->
-    <br />
-    <div class="coach-search-box">
-      <label class="form-label"
-        ><span style="font-size: 1.5em">プラン内容検索ワード</span></label
-      >
-      <div class="input-form">
-        <input
-          v-model="contractKeyword"
-          type="text"
-          class="form-control"
-          placeholder="検索ワード"
-        />
-      </div>
-    </div>
-    <br />
-    <!-- プラン一覧 -->
-    <div v-for="contract in filteredContracts" :key="contract.index">
+    <!-- コーチ一覧 -->
+    <div v-for="coach in filteredCoaches" :key="coach.index">
       <div
         class="card"
         style="
-          max-width: 40%;
+          max-width: 50%;
           margin: 3em auto;
           box-shadow: 0 0 0.2em 0 grey;
           border-radius: 0.4em;
         "
       >
-        <div class="card-body">
-          <h5 class="card-title">コーチの氏名</h5>
-          <div class="profile-box2">
-            {{ contract.coachName }}
+        <div class="row no-gutters">
+          <div class="col-md-4 my-auto">
+            <br />
+            <img :src="coach.image" class="img-box" />
           </div>
-          プラン名 <br />
-          <div class="profile-box2">
-            {{ contract.planName }}
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">コーチの氏名</h5>
+              <div class="profile-box2">
+                {{ coach.name }}
+              </div>
+              コーチの年齢 <br />
+              <div class="profile-box2">
+                {{ coach.age }}
+              </div>
+              コーチの専門スポーツ <br />
+              <div class="profile-box2">
+                {{ coach.specialty }}
+              </div>
+              コーチの住所 <br />
+              <div class="profile-box2">
+                {{ coach.address }}
+              </div>
+              コーチのプロフィール <br />
+              <div class="profile-box2">
+                {{ coach.profile }}
+              </div>
+              <button
+                class="btn btn-success mt-3"
+                @click="doGetCoachID(coach.email, coach.pass)"
+              >
+                コーチのプランを見る
+              </button>
+            </div>
           </div>
-          プラン内容 <br />
-          <div class="profile-box2">
-            {{ contract.contents }}
-          </div>
-          <button
-            class="btn btn-info mt-3"
-            style="margin-left: 3em"
-            @click="goUserChat(contract.coachID)"
-          >
-            チャット画面へ移動する
-          </button>
-          <button
-            class="btn btn-info mt-3"
-            style="margin-left: 3em"
-            @click="goPostReview(contract.coachID)"
-          >
-            レビューを書く
-          </button>
-          <br />
         </div>
       </div>
     </div>
@@ -109,56 +106,69 @@
 
 <script lang="ts">
 import firebase from '@/plugins/firebase'
-import { userContractType } from '@/store/types'
+import { coachType } from '@/store/types'
 export default {
   data: () => ({
-    contractKeyword: '' as any,
-    contracts: [] as Array<userContractType>,
-    searchWord: '' as any,
+    coaches: [] as Array<coachType>,
+    searchWord: '' as string,
+    exist: true as boolean,
+    none: false as boolean,
   }),
   computed: {
-    filteredContracts() {
-      const cutoutContracts = [] as Array<userContractType>
-      this.contracts.forEach((value) => {
+    getSearchText: {
+      get() {
+        return this.$store.getters.getSearchText
+      },
+    },
+    filteredCoaches() {
+      const cutoutCoaches = [] as Array<coachType>
+      this.coaches.forEach((value) => {
         if (
-          value.coachName.includes(this.contractKeyword) ||
-          value.planName.includes(this.contractKeyword) ||
-          value.contents.includes(this.contractKeyword)
+          value.name.includes(this.getSearchText) ||
+          value.address.includes(this.getSearchText) ||
+          String(value.age).includes(this.getSearchText) ||
+          value.specialty.includes(this.getSearchText) ||
+          value.profile.includes(this.getSearchText)
         ) {
-          cutoutContracts.push(value)
+          cutoutCoaches.push(value)
         }
       })
-      return cutoutContracts
+      return cutoutCoaches
     },
   },
   created() {
     const db = firebase.firestore()
-    const dbcontract = db
-      .collection('users')
-      .doc(this.$store.state.loginUserID)
-      .collection('ContractCoach')
-    dbcontract.get().then((querySnapshot) => {
+    const dbCoach = db.collection('coaches')
+    dbCoach.get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        const contractData = doc.data()
-        const pushContract: userContractType = {
-          coachName: contractData.CoachName,
-          planName: contractData.PlanName,
-          contents: contractData.PlanContents,
-          coachID: contractData.CoachID,
+        const coachData = doc.data()
+        const pushCoach: coachType = {
+          name: coachData.Name ? coachData.Name : '未登録',
+          image: coachData.CoachImage ? coachData.CoachImage : '未登録',
+          age: coachData.Age ? coachData.Age : 0,
+          specialty: coachData.CoachSpecialty
+            ? coachData.CoachSpecialty
+            : '未登録',
+          address: coachData.Address ? coachData.Address : '未登録',
+          profile: coachData.Profile ? coachData.Profile : '未登録',
+          email: coachData.Email ? coachData.Email : '',
+          pass: coachData.Password ? coachData.Password : '',
         }
-        this.contracts.push(pushContract)
+        this.coaches.push(pushCoach)
       })
     })
   },
   methods: {
-    doSearchCoach() {
-      this.$store.commit('searchCoach', this.searchWord)
+    doGetCoachID(coachEmail: string, coachPass: string) {
+      this.$store.commit('getCoachID', { email: coachEmail, pass: coachPass })
     },
-    goPostReview(coachID: string) {
-      this.$store.commit('getPostReview', coachID)
-    },
-    goUserChat(coachID: string) {
-      this.$store.commit('getUserChat', coachID)
+    doSearchCoach(flag: boolean) {
+      if (flag === true) {
+        this.$store.commit('searchCoach', this.searchWord)
+      } else {
+        this.searchWord = ''
+        this.$store.commit('searchCoach', this.searchWord)
+      }
     },
     doLogout() {
       this.$store.dispatch('logout')

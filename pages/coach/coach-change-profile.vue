@@ -260,7 +260,8 @@ export default {
     doChangeMail() {
       const tester = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
       if (!tester.test(this.newMail)) {
-        this.errMail = '半角英数文字でメールアドレスを入力してください。'
+        this.errMail =
+          'メールアドレスが半角文字でないか、形式が正しくありません。'
       } else {
         this.$store.commit('changeMail', {
           email: this.$store.state.loginUserMail,
